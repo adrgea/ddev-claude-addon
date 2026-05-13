@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+
+## Description: Open Claude Code inside the web container
+## Usage: claude [args...]
+## Example: "ddev claude" or "ddev claude --resume"
+
+set -e
+
+CONTAINER="ddev-${DDEV_PROJECT}-web"
+USER_UID="${DDEV_UID:-1000}"
+USER_GID="${DDEV_GID:-1000}"
+
+# Build the inner command, escaping each arg so spaces/quotes survive
+inner='claude'
+for arg in "$@"; do
+    inner+=" $(printf '%q' "$arg")"
+done
+
+# `\$` keeps the lookups in the container; `$inner` expands on the host.
+# HOME isn't set by `docker exec -u uid:gid`, so we resolve it from /etc/passwd
+# and prepend ~/.local/bin to PATH ourselves rather than relying on shell rc files.
+exec docker exec -it -u "${USER_UID}:${USER_GID}" -w /var/www/html "$CONTAINER" \
+    bash -c "export HOME=\$(getent passwd \$(id -u) | cut -d: -f6); export PATH=\"\$HOME/.local/bin:\$PATH\"; exec $inner"
