@@ -5,11 +5,11 @@ project_files:
   - web-entrypoint.d/claude-persist.sh
 
 post_install_actions:
-  - chmod +x .ddev/commands/host/claude .ddev/web-entrypoint.d/claude-persist.sh
+  - chmod +x commands/host/claude web-entrypoint.d/claude-persist.sh
   - 'echo "ddev-claude-addon installed. Run ''ddev restart'', then ''ddev claude''."'
 
 removal_actions:
-  - rm -f .ddev/commands/host/claude
-  - rm -f .ddev/web-entrypoint.d/claude-persist.sh
+  - rm -f commands/host/claude
+  - rm -f web-entrypoint.d/claude-persist.sh
 
 ddev_version_constraint: ">= v1.22.0"
