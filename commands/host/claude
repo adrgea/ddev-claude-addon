@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+## #ddev-generated: If you want to edit and own this file, remove this line.
 ## Description: Open Claude Code inside the web container
 ## Usage: claude [args...]
 ## Example: "ddev claude" or "ddev claude --resume"
